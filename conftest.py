@@ -26,17 +26,14 @@ def driver(request):
     driver.quit()
 
 @pytest.fixture(scope="function")
-def setup_and_teardown(request):
+def setup_and_teardown():
     """
-    Фикстура для подготовки данных перед тестом и их очистки после теста.
-    """
+        Фикстура для подготовки данных перед тестом и их очистки после теста.
+        """
     client = APIClient()
     user_data = generate_user_data()
-    request.cls.client = client  # Передаём объект APIClient в тестовый класс
-    request.cls.user_data = user_data  # Передаём данные пользователя в тестовый класс
 
-
-    yield
+    yield client, user_data  # Возвращаем объект APIClient и тестовые данные
 
     # Удаление созданного курьера после теста
     response = client.post(API_ENDPOINTS["login_user"], data={

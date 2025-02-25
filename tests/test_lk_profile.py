@@ -13,8 +13,9 @@ from pages.user_profile_page import UserProfilePage
 class TestLKProfile:
     @allure.title('Проверка перехода по клику на «Личный кабинет»')
     def test_go_to_account_from_header(self, driver, setup_and_teardown):
-        self.client.post(API_ENDPOINTS["create_user"], self.user_data)
-        user_data = self.user_data
+        client, user_data = setup_and_teardown  # Распаковываем значения
+
+        client.post(API_ENDPOINTS["create_user"], user_data)
         AuthUserPage(driver).login(user_data["email"], user_data["password"])
 
         MainPage(driver).click_on_account()
@@ -23,8 +24,9 @@ class TestLKProfile:
 
     @allure.title('переход в раздел «История заказов»')
     def test_go_to_order_history(self, driver, setup_and_teardown):
-        self.client.post(API_ENDPOINTS["create_user"], self.user_data)
-        user_data = self.user_data
+        client, user_data = setup_and_teardown  # Распаковываем значения
+
+        client.post(API_ENDPOINTS["create_user"], user_data)
         AuthUserPage(driver).login(user_data["email"], user_data["password"])
 
         MainPage(driver).click_on_account()
@@ -36,8 +38,9 @@ class TestLKProfile:
     @allure.title('выход из аккаунта')
     @allure.description('выход из аккаунта')
     def test_logout(self, driver, setup_and_teardown):
-        self.client.post(API_ENDPOINTS["create_user"], self.user_data)
-        user_data = self.user_data
+        client, user_data = setup_and_teardown  # Распаковываем значения
+
+        client.post(API_ENDPOINTS["create_user"], user_data)
         AuthUserPage(driver).login(user_data["email"], user_data["password"])
 
         MainPage(driver).click_on_account()

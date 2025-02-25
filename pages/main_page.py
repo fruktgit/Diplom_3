@@ -1,8 +1,6 @@
 import allure
 from pages.base_page import BasePage
 from locators import MainPageLocators, OrdersPageLocators
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 
 
 class MainPage(BasePage):
@@ -64,7 +62,6 @@ class MainPage(BasePage):
     @allure.step('Получение ORDER_ID')
     def get_with_order_id(self):
         self.wait_element_visibility(MainPageLocators.ORDER_IDENTIFICATE)
-        # self.wait_until_element_visibility(MainPageLocators.ORDER_ID)
         order_id = self.find_element(MainPageLocators.ORDER_ID).text
         while order_id == '9999':
             order_id = self.find_element(MainPageLocators.ORDER_ID).text

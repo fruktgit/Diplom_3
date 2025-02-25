@@ -1,5 +1,3 @@
-import time
-
 import allure
 from selenium.webdriver import ActionChains
 
@@ -38,9 +36,11 @@ class BasePage:
         WebDriverWait(self.driver, 10).until(ec.presence_of_element_located(locator))
         return self.driver.find_element(*locator)
 
-    def move_and_click(self, locator):
-        time.sleep(3)
-        element = self.driver.find_element(*locator)
+    def move_and_click(self, locator, timeout=30):
+        """Ожидает появления элемента и кликает по нему."""
+        wait = WebDriverWait(self.driver, timeout)
+        element = wait.until(ec.element_to_be_clickable(locator))
+
         actions = ActionChains(self.driver)
         actions.move_to_element(element).click().perform()
 

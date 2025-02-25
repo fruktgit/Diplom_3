@@ -20,8 +20,9 @@ class TestCreateOrder:
 
     @allure.title('заказы пользователя из раздела «История заказов» отображаются на странице «Лента заказов»')
     def test_find_order_in_list(self, driver, setup_and_teardown):
-        self.client.post(API_ENDPOINTS["create_user"], self.user_data)
-        user_data = self.user_data
+        client, user_data = setup_and_teardown  # Распаковываем значения
+
+        client.post(API_ENDPOINTS["create_user"], user_data)
         AuthUserPage(driver).login(user_data["email"], user_data["password"])
 
         MainPage(driver).click_on_account()
@@ -43,8 +44,9 @@ class TestCreateOrder:
 
     @pytest.mark.parametrize('counter', [OrdersPageLocators.TOTAL_ORDER_COUNT, OrdersPageLocators.DAILY_ORDER_COUNT])
     def test_today_orders_counter(self, driver, setup_and_teardown, counter):
-        self.client.post(API_ENDPOINTS["create_user"], self.user_data)
-        user_data = self.user_data
+        client, user_data = setup_and_teardown  # Распаковываем значения
+
+        client.post(API_ENDPOINTS["create_user"], user_data)
         AuthUserPage(driver).login(user_data["email"], user_data["password"])
 
         MainPage(driver).click_on_account()
@@ -61,10 +63,10 @@ class TestCreateOrder:
 
     @allure.title('после оформления заказа его номер появляется в разделе В работе')
     def test_new_order_appears_in_work_list(self, driver, setup_and_teardown):
-        self.client.post(API_ENDPOINTS["create_user"], self.user_data)
-        user_data = self.user_data
-        AuthUserPage(driver).login(user_data["email"], user_data["password"])
+        client, user_data = setup_and_teardown  # Распаковываем значения
 
+        client.post(API_ENDPOINTS["create_user"], user_data)
+        AuthUserPage(driver).login(user_data["email"], user_data["password"])
 
         MainPage(driver).add_filling_to_order()
         MainPage(driver).click_order_button()

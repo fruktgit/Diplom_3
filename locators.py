@@ -28,8 +28,7 @@ class AuthLoginLocators:
     LOGIN_BUTTON_ANY_FORMS = (By.XPATH, ".//button[text()='Войти']")
     FORGOT_PASSWORD = (By.XPATH, '//a[contains(@href, "/forgot-password")]')    #ссылка "Восстановить пароль"
     LOGIN_TEXT = (By.XPATH, ".//h2[text()='Вход']")
-    # LOGIN_TEXT_WITH_HREF = (By.XPATH, ".//a[text()='Войти']")  # Надпись Войти с ссылкой
-    # LOGIN_BUTTON = (By.CLASS_NAME, "Auth_link__1fOlj")
+
 
 
 
