@@ -4,15 +4,17 @@ from data import generate_user_data
 from curl import Urls
 from pages.main_page import MainPage
 from pages.recovery_password_page import PasswordRecoveryPage
-
 @allure.suite('Восстановление пароля')
-
 class TestRecoveryPassword:
 
     @allure.title('Проверка на переход по клику на Восстановить пароль на странице логина')
     def test_click_logo_button_go_to_home(self, driver):
-        MainPage(driver).click_on_account()
-        PasswordRecoveryPage(driver).click_password_reset_link()
+        main_page = MainPage(driver)
+        password_recovery_page = PasswordRecoveryPage(driver)
+
+        main_page.click_on_account()
+        password_recovery_page.click_password_reset_link()
+
         assert driver.current_url == Urls.url_restore
 
     @allure.title('ввод почты и клик по кнопке «Восстановить»')

@@ -12,19 +12,20 @@ class TestMainPage:
 
     @allure.title('переход по клику на «Конструктор»')
     def test_go_to_constructor(self, driver):
+        main_page = MainPage(driver)
 
-
-        MainPage(driver).click_constructor_button()
-        current_url = MainPage(driver).current_url()
+        main_page.click_constructor_button()
+        current_url = main_page.current_url()
         assert current_url == Urls.main_site
 
     @allure.title('переход по клику на «Лента заказов»')
     def test_redirection_to_order_list(self, driver, setup_and_teardown):
         client, user_data = setup_and_teardown  # Распаковываем значения
+        mainpage = MainPage(driver)
+        userpage = AuthUserPage(driver)
 
         client.post(API_ENDPOINTS["create_user"], user_data)
-        AuthUserPage(driver).login(user_data["email"], user_data["password"])
-        mainpage=MainPage(driver)
+        userpage.login(user_data["email"], user_data["password"])
 
         mainpage.click_on_account()
 
@@ -35,10 +36,11 @@ class TestMainPage:
     @allure.title('если кликнуть на ингредиент, появится всплывающее окно с деталями')
     def test_popup_of_ingredient(self, driver, setup_and_teardown):
         client, user_data = setup_and_teardown  # Распаковываем значения
+        mainpage = MainPage(driver)
+        userpage = AuthUserPage(driver)
 
         client.post(API_ENDPOINTS["create_user"], user_data)
-        AuthUserPage(driver).login(user_data["email"], user_data["password"])
-        mainpage=MainPage(driver)
+        userpage.login(user_data["email"], user_data["password"])
 
         mainpage.click_on_account()
         mainpage.click_constructor_button()
@@ -50,10 +52,12 @@ class TestMainPage:
     @allure.title('всплывающее окно закрывается кликом по крестику')
     def test_close_ingredient_details_window(self, driver, setup_and_teardown):
         client, user_data = setup_and_teardown  # Распаковываем значения
+        mainpage = MainPage(driver)
+        userpage = AuthUserPage(driver)
 
         client.post(API_ENDPOINTS["create_user"], user_data)
-        AuthUserPage(driver).login(user_data["email"], user_data["password"])
-        mainpage=MainPage(driver)
+        userpage.login(user_data["email"], user_data["password"])
+
 
         mainpage.click_on_account()
         mainpage.click_constructor_button()
@@ -65,23 +69,26 @@ class TestMainPage:
 
     @allure.title('при добавлении ингредиента в заказ, увеличивается каунтер данного ингредиента')
     def test_ingredient_counter(self, driver):
+        mainpage = MainPage(driver)
+
         prev_counter_value = MainPage(driver).get_count_value()
-        MainPage(driver).add_filling_to_order()
-        actual_value = MainPage(driver).get_count_value()
+        mainpage.add_filling_to_order()
+        actual_value = mainpage.get_count_value()
         assert actual_value > prev_counter_value
 
     @allure.title('Проверка возможности оформления заказ авторизованным пользователем')
     @allure.description('Нажимаем кнопку «Оформить заказ» и проверяем, что заказ оформлен и появился идентификатор заказа')
     def test_successful_order(self, driver, setup_and_teardown):
         client, user_data = setup_and_teardown  # Распаковываем значения
+        mainpage = MainPage(driver)
+        userpage=AuthUserPage(driver)
 
         client.post(API_ENDPOINTS["create_user"], user_data)
-        AuthUserPage(driver).login(user_data["email"], user_data["password"])
-        mainpage=MainPage(driver)
+        userpage.login(user_data["email"], user_data["password"])
+
 
         mainpage.click_on_account()
         mainpage.click_constructor_button()
-
 
         mainpage.add_filling_to_order()
         mainpage.click_order_button()
