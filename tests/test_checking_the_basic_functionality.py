@@ -71,7 +71,7 @@ class TestMainPage:
     def test_ingredient_counter(self, driver):
         mainpage = MainPage(driver)
 
-        prev_counter_value = MainPage(driver).get_count_value()
+        prev_counter_value = mainpage.get_count_value()
         mainpage.add_filling_to_order()
         actual_value = mainpage.get_count_value()
         assert actual_value > prev_counter_value
